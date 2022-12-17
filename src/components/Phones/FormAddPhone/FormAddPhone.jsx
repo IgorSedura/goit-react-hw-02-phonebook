@@ -1,12 +1,43 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class FormAddPhone extends Component {
+  state = {
+    contacts: [],
+    name: '',
+    number: '',
+  };
+
+  handleChange = ({ target }) => {
+    const { value, name } = target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { onSubmit } = this.props;
+    onSubmit({ ...this.state });
+    this.reset();
+  };
+
+  reset() {
+    this.setState({
+      name: '',
+      number: '',
+    });
+  }
   render() {
+    const { handleChange, handleSubmit } = this;
+    const { name, number } = this.state;
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
           <input
+            value={name}
+            onChange={handleChange}
             placeholder="Введіть ім'я"
             type="text"
             name="name"
@@ -18,6 +49,8 @@ export class FormAddPhone extends Component {
         <div>
           <label>Number</label>
           <input
+            value={number}
+            onChange={handleChange}
             placeholder="Введіть номер"
             type="tel"
             name="number"
@@ -31,3 +64,11 @@ export class FormAddPhone extends Component {
     );
   }
 }
+
+FormAddPhone.defaultProps = {
+  onSubmit: () => {},
+};
+
+FormAddPhone.propTypes = {
+  onSubmit: PropTypes.func,
+};

@@ -1,9 +1,9 @@
-import { FormAddPhone } from './FormAddPhone/FormAddPhone';
+import { Phones } from './Phones/Phones';
 
 export const App = () => {
   return (
     <div>
-      <FormAddPhone />
+      <Phones />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
+import { Filter } from './Filter/Filter';
 import { FormAddPhone } from './FormAddPhone/FormAddPhone';
 import { PhonebookList } from './PhonebookList/PhonebookList';
 export class Phones extends Component {
@@ -10,8 +11,17 @@ export class Phones extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
+    filter: '',
   };
   addPhone = data => {
+    if (
+      this.state.contacts.find(
+        contact => contact.name.toLowerCase() === data.name.toLowerCase()
+      )
+    ) {
+      alert(`${data.name} is already in contacts`);
+      return;
+    }
     this.setState(prevState => {
       const newPhone = {
         id: nanoid(),
@@ -29,12 +39,40 @@ export class Phones extends Component {
       return { contacts: newContacts };
     });
   };
+  handleFilter = e => {
+    const filterStr = e.target.value;
+    console.log(e.target.value);
+    this.setState({
+      filter: filterStr,
+    });
+  };
+
+  getFilterContacts() {
+    const { contacts, filter } = this.state;
+    if (!filter) {
+      return contacts;
+    }
+
+    const normolizedFilter = filter.toLocaleLowerCase();
+
+    const filtredContacts = contacts.filter(({ name, number }) => {
+      const normolizedName = name.toLocaleLowerCase();
+      const normolizedNumber = number.toLocaleLowerCase();
+      const result =
+        normolizedName.includes(normolizedFilter) ||
+        normolizedNumber.includes(normolizedFilter);
+      return result;
+    });
+
+    return filtredContacts;
+  }
   render() {
-    const { contacts } = this.state;
+    const contacts = this.getFilterContacts();
     const { addPhone, removeContacts } = this;
     return (
       <div>
         <FormAddPhone onSubmit={addPhone} />
+        <Filter handleFilter={this.handleFilter} />
         <PhonebookList items={contacts} removeContacts={removeContacts} />
       </div>
     );

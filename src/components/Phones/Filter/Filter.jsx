@@ -1,9 +1,11 @@
+import { Title, Text, Input, Container } from './FilterStyles';
+
 export const Filter = ({ handleFilter }) => {
   return (
-    <div>
-      <h2>Contacts</h2>
-      <p>Find constacts by name</p>
-      <input onChange={handleFilter} type="text" />
-    </div>
+    <Container>
+      <Title>Contacts</Title>
+      <Text>Find constacts by name</Text>
+      <Input onChange={handleFilter} type="text" />
+    </Container>
   );
 };

@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
+import { Btn, Ul, Li } from './ConatactBookListStyles';
 
 export const PhonebookList = ({ items, removeContacts }) => {
   const elemenst = items.map(({ id, name, number }) => (
-    <li key={id}>
+    <Li key={id}>
       {name}: {number}
       <span>
-        <button onClick={() => removeContacts(id)}>Delete</button>
+        <Btn onClick={() => removeContacts(id)}>Delete</Btn>
       </span>
-    </li>
+    </Li>
   ));
-  return <ul>{elemenst}</ul>;
+  return <Ul>{elemenst}</Ul>;
 };
 
 PhonebookList.defaultProps = {
